@@ -1,0 +1,100 @@
+{
+  "name": "zcode-voice-input",
+  "version": "0.2.1",
+  "description": "语音输入：按住快捷键说话，火山引擎豆包流式语音识别 2.0 实时转文字并直接插入聊天输入框（输入法式录音条，不随对话滚动）。",
+  "author": {
+    "name": "ZCode Voice Input"
+  },
+  "license": "MIT",
+  "skills": "skills",
+  "userConfig": {
+    "appId": {
+      "type": "string",
+      "title": "火山引擎 App ID（旧版控制台）",
+      "description": "旧版语音技术控制台的 APP ID。与 Access Token 配合使用；使用新版控制台 App Key 时可留空。",
+      "default": "",
+      "required": false,
+      "sensitive": true
+    },
+    "accessToken": {
+      "type": "string",
+      "title": "火山引擎 Access Token（旧版控制台）",
+      "description": "旧版语音技术控制台的 Access Token，与 App ID 配合使用。",
+      "default": "",
+      "required": false,
+      "sensitive": true
+    },
+    "apiKey": {
+      "type": "string",
+      "title": "火山引擎 App Key（新版控制台）",
+      "description": "新版控制台的应用 App Key（X-Api-Key）。填写后优先于 App ID/Access Token。",
+      "default": "",
+      "required": false,
+      "sensitive": true
+    },
+    "resourceId": {
+      "type": "string",
+      "title": "模型资源 ID",
+      "description": "默认 volc.seedasr.sauc.duration（豆包流式语音识别大模型 2.0·按时长计费）。并发计费可填 volc.seedasr.sauc.concurrent。",
+      "default": "volc.seedasr.sauc.duration",
+      "required": false
+    },
+    "useMock": {
+      "type": "boolean",
+      "title": "强制使用 Mock 模式",
+      "description": "开启后不连接真实火山引擎服务，识别结果为演示文本（用于离线体验与测试）。",
+      "default": false,
+      "required": false
+    },
+    "pttKey": {
+      "type": "string",
+      "title": "按住说话按键（PTT）",
+      "description": "按住该键说话，松开结束并把文字插入输入框光标处。仅单键（如 F8），修改后完全重启 ZCode 生效。",
+      "default": "F8",
+      "required": false
+    },
+    "toggleKeys": {
+      "type": "string",
+      "title": "开关录音组合键",
+      "description": "按下开始、再按结束并插入；录音中按 Esc 取消。形如 Ctrl+Shift+Space，修改后完全重启 ZCode 生效。",
+      "default": "Ctrl+Shift+Space",
+      "required": false
+    }
+  },
+  "mcpServers": {
+    "voice-input": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["${ZCODE_PLUGIN_ROOT}/server/server.mjs"],
+      "cwd": "${ZCODE_PROJECT_DIR}",
+      "env": {
+        "ZCODE_VOICE_APP_ID": "${user_config.appId}",
+        "ZCODE_VOICE_ACCESS_TOKEN": "${user_config.accessToken}",
+        "ZCODE_VOICE_API_KEY": "${user_config.apiKey}",
+        "ZCODE_VOICE_RESOURCE_ID": "${user_config.resourceId}",
+        "ZCODE_VOICE_USE_MOCK": "${user_config.useMock}",
+        "ZCODE_VOICE_PTT_KEY": "${user_config.pttKey}",
+        "ZCODE_VOICE_TOGGLE_KEYS": "${user_config.toggleKeys}"
+      }
+    }
+  },
+  "ui": {
+    "surfaces": [
+      {
+        "id": "voice-input",
+        "title": {
+          "zh-CN": "语音输入",
+          "en-US": "Voice Input"
+        },
+        "icon": "mic",
+        "server": "voice-input",
+        "resourceUri": "ui://zcode-voice-input/panel.html",
+        "availability": "session"
+      }
+    ]
+  },
+  "description_i18n": {
+    "en": "Voice input for ZCode: hold a hotkey and speak; Volcengine Doubao streaming ASR 2.0 transcribes live and inserts text straight into the chat composer, IME-style. The mic pill stays pinned by the input box and never scrolls away.",
+    "zh-CN": "语音输入：按住快捷键说话，火山引擎豆包流式语音识别 2.0 实时转文字并直接插入聊天输入框（输入法式）。录音条吸附在输入框旁，不随对话滚动。"
+  }
+}

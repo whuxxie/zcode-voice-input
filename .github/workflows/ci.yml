@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: ${{ matrix.os }} · Node ${{ matrix.node }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install dev deps
+        run: npm install --no-fund --no-audit
+
+      - name: Build panel & package
+        run: node scripts/build-package.mjs
+
+      - name: Run full test suite
+        run: node --test tests/*.test.mjs
+
+      - name: Doctor (environment sanity)
+        run: node scripts/doctor.mjs
+        # 注：CI 沙箱未安装 ZCode 桌面端，doctor 的 CLI 定位为警告级，不会失败

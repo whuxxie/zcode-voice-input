@@ -1,0 +1,31 @@
+{
+  "name": "dev-zcode-voice-input-local",
+  "owner": {
+    "name": "ZCode Voice Input (local dev market)"
+  },
+  "metadata": {
+    "description": "ZCode Voice Input 本地开发市场：语音输入插件（火山引擎豆包流式语音识别 2.0）",
+    "description_i18n": {
+      "en": "Local development marketplace for the ZCode Voice Input plugin (Volcengine Doubao streaming ASR 2.0)."
+    }
+  },
+  "plugins": [
+    {
+      "name": "zcode-voice-input",
+      "source": "../plugin",
+      "version": "0.2.1",
+      "description": "语音输入：麦克风录音 + 豆包流式语音识别 2.0，可编辑后复制/确认放入 Agent 输入区，不自动发送。",
+      "displayName": "ZCode Voice Input",
+      "displayName_i18n": {
+        "zh-CN": "语音输入",
+        "en-US": "ZCode Voice Input"
+      },
+      "description_i18n": {
+        "zh-CN": "语音输入：点击麦克风录音，火山引擎豆包流式语音识别 2.0 转文字，可编辑后复制/确认放入 Agent 输入区。默认不自动发送。",
+        "en-US": "Voice input: record from your mic, transcribe with Doubao streaming ASR 2.0, review and edit, then paste or confirm-insert. Never auto-sends."
+      },
+      "category": "productivity",
+      "keywords": ["voice", "asr", "speech", "输入", "语音", "识别"]
+    }
+  ]
+}

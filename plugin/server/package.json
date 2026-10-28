@@ -1,0 +1,7 @@
+{
+  "name": "zcode-voice-input-server",
+  "private": true,
+  "version": "0.1.0",
+  "description": "插件 MCP 服务器（server.mjs 为 ESM 入口；其余模块为 CommonJS，通过 ESM-CJS 互操作加载）",
+  "type": "commonjs"
+}
