@@ -1,7 +1,7 @@
 # TEST_RESULTS — 测试结果记录
 
 最后更新：2026-10-28。测试框架：`node --test`（Node v24.19.0）。
-运行方式：`cd G:/xxie/zcode-voice-input && node --test tests/*.test.mjs`
+运行方式：在仓库根目录执行 `node --test tests/*.test.mjs`
 
 ## 总体结果：67/67 全部通过（2026-10-28 最终运行）
 

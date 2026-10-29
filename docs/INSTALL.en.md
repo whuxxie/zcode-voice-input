@@ -80,7 +80,7 @@ Enabled plugin zcode-voice-input@dev-zcode-voice-input-local in .../config.json
 1. If you haven't built yet: `node scripts/build-package.mjs` (creates `dist/local-marketplace`).
 2. Open ZCode → **Plugin Marketplace → Add → Add Plugin Marketplace**.
 3. Paste the **absolute path** of this repo's `dist/local-marketplace` directory:
-   - Windows e.g. `G:\xxie\zcode-voice-input\dist\local-marketplace`
+   - Windows e.g. `C:\path\to\zcode-voice-input\dist\local-marketplace`
    - Ubuntu e.g. `/home/<you>/zcode-voice-input/dist/local-marketplace`
 4. Open the market **dev-zcode-voice-input-local** → plugin **ZCode Voice Input** → **Install** → **enable** if asked.
 5. **Fully quit and restart ZCode** (quit from the tray, not just the window).

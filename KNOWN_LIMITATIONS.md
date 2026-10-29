@@ -5,7 +5,7 @@
 ## 1. 环境差异：本机为 Windows 11；Ubuntu 通过 CI 保证可安装性
 
 开发与实机验证在 **Windows 11 (10.0.26300, x64)** 完成，ZCode 桌面端位于 `D:\Program Files\ZCode`
-（另有用户级安装 `C:\Users\whuxxie\AppData\Local\Programs\ZCode`）。
+（另有用户级安装 `C:\Users\<你>\AppData\Local\Programs\ZCode`）。
 
 针对 Ubuntu 的保障措施：
 - 插件全部为跨平台 JS/HTML（Node + Electron webview），不含任何 Windows 专属 API。

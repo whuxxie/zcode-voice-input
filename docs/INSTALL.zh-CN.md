@@ -82,7 +82,7 @@ Enabled plugin zcode-voice-input@dev-zcode-voice-input-local in .../config.json
 1. 若尚未构建：`node scripts/build-package.mjs`（生成 `dist/local-marketplace`）。
 2. 打开 ZCode → 左下 **设置/插件市场** → **插件市场 → 添加 → 添加插件市场**。
 3. 粘贴本仓库 `dist/local-marketplace` 目录的**绝对路径**并确认
-   - Windows 例：`G:\xxie\zcode-voice-input\dist\local-marketplace`
+   - Windows 例：`G:\path\to\zcode-voice-input\dist\local-marketplace`
    - Ubuntu 例：`/home/<你>/zcode-voice-input/dist/local-marketplace`
 4. 进入市场 **dev-zcode-voice-input-local** → 插件 **ZCode Voice Input / 语音输入** → **安装** → 如有启用开关则**启用**。
 5. **完全退出并重启 ZCode**（托盘退出，不是仅关窗口）。

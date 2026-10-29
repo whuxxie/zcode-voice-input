@@ -7,14 +7,14 @@
 ## 实际执行记录（CLI 真实输出摘录）
 
 ```
-$ zcode plugins marketplace add G:\xxie\zcode-voice-input\dist\local-marketplace --scope user
+$ zcode plugins marketplace add <仓库路径>\dist\local-marketplace --scope user
 Added marketplace dev-zcode-voice-input-local (1 plugins)
 
 $ zcode plugins install zcode-voice-input@dev-zcode-voice-input-local --scope user
 Installed plugin zcode-voice-input@dev-zcode-voice-input-local (0.1.0) [enabled]
 
 $ zcode plugins enable zcode-voice-input@dev-zcode-voice-input-local --scope user
-Enabled plugin zcode-voice-input@dev-zcode-voice-input-local in C:\Users\whuxxie\.zcode\cli\config.json
+Enabled plugin zcode-voice-input@dev-zcode-voice-input-local in C:\Users\<你>\.zcode\cli\config.json
 ```
 
 `zcode plugins list --json` 中的实际条目：
@@ -23,7 +23,7 @@ Enabled plugin zcode-voice-input@dev-zcode-voice-input-local in C:\Users\whuxxie
 {
   "id": "zcode-voice-input@dev-zcode-voice-input-local",
   "enabled": true,
-  "manifestPath": "C:\\Users\\whuxxie\\.zcode\\cli\\plugins\\cache\\dev-zcode-voice-input-local\\zcode-voice-input\\0.1.0\\.zcode-plugin\\plugin.json",
+  "manifestPath": "C:\\Users\\<你>\\.zcode\\cli\\plugins\\cache\\dev-zcode-voice-input-local\\zcode-voice-input\\0.1.0\\.zcode-plugin\\plugin.json",
   "declaredMcpServerNames": ["voice-input"],
   "mcpServerNames": ["plugin:zcode-voice-input:voice-input"],
   "skillCount": 1,
@@ -55,11 +55,11 @@ Enabled plugin zcode-voice-input@dev-zcode-voice-input-local in C:\Users\whuxxie
 
 ## 安装产物位置
 
-- 源码：`G:\xxie\zcode-voice-input\plugin\`
-- 本地市场：`G:\xxie\zcode-voice-input\dist\local-marketplace\`（marketplace.json + plugins/zcode-voice-input）
-- 分发包：`G:\xxie\zcode-voice-input\dist\zcode-voice-input-v0.1.0.zip`（sha256 见同名 .sha256 文件）
-- 已安装缓存：`C:\Users\whuxxie\.zcode\cli\plugins\cache\dev-zcode-voice-input-local\zcode-voice-input\0.1.0\`
-- 插件数据目录：`C:\Users\whuxxie\.zcode\cli\plugins\data\zcode-voice-input@dev-zcode-voice-input-local`
+- 源码：`<仓库路径>\plugin\`
+- 本地市场：`<仓库路径>\dist\local-marketplace\`（marketplace.json + plugins/zcode-voice-input）
+- 分发包：`<仓库路径>\dist\zcode-voice-input-v0.1.0.zip`（sha256 见同名 .sha256 文件）
+- 已安装缓存：`C:\Users\<你>\.zcode\cli\plugins\cache\dev-zcode-voice-input-local\zcode-voice-input\0.1.0\`
+- 插件数据目录：`C:\Users\<你>\.zcode\cli\plugins\data\zcode-voice-input@dev-zcode-voice-input-local`
 
 ## 卸载方式
 
