@@ -1,34 +1,22 @@
-# TASK_QUEUE — 任务队列（最终状态：全部可执行任务完成）
+# TASK_QUEUE — ZCode Voice Input
 
-## 第一轮：核心插件（全部完成 ✅）
-- [x] volcano-protocol.js：二进制帧编解码（4字节头/序号/gzip/JSON/错误帧）
-- [x] volcano-asr.js：火山 WS 客户端（双控制台鉴权、启停时序、utterances 合并、重试/超时）
-- [x] mock-asr.js：离线 Mock ASR（与 relay 接口一致，支持注入脚本/失败/断流）
-- [x] relay.js：本地回环 WebSocket 中继（token 鉴权、Origin 校验、并发限制）
-- [x] backend-factory.mjs：真实/Mock 统一工厂 + 热词注入 + 后处理
-- [x] server.mjs：最小 MCP stdio 服务器（initialize/tools/resources + panel 资源 _meta）
-- [x] panel：录音 UI（状态机、麦克风、实时预览、时长、编辑、复制、插入指引、确认提交）
-- [x] term-processor.js：18 术语热词 + 个人词典 + 保守后处理（默认不改语义）
-- [x] tests/*：67 项自动化测试全部通过（规约 14 类全覆盖）
-- [x] 真实安装：marketplace add → install → enable 全部成功并实测生命周期
+## 待办（按优先级）
+1. [P0] 工程骨架：package.json、plugin.json、marketplace.json、构建脚本（esbuild 单文件 bundle）
+2. [P0] `src/server/volc-asr-client.mjs`：豆包流式 2.0 二进制协议客户端（双向流式 + bigmodel_async 分句模式）
+3. [P0] `src/server/mock-asr.mjs`：Mock ASR WS 服务（实现同协议，供离线测试）
+4. [P0] `src/server/audio-bridge.mjs`：127.0.0.1 回环 WS 桥（一次性 token + Origin 校验 + 会话生命周期）
+5. [P0] `src/server/credentials.mjs`：凭据安全存取（ZCODE_PLUGIN_DATA 0600 文件；永不入日志/Git/前端）
+6. [P0] MCP server 主体：ui 资源注册、工具集（get_session/config/status）、协议粘合
+7. [P0] UI 面板 panel.html：录音控制、状态、时长、实时预览、编辑框、复制/附加、错误提示、设备选择、防并发
+8. [P1] 术语处理：程序员词典默认项 + 用户自定义词典 + 守卫式替换（不碰路径/数字/变量）
+9. [P1] 自动化测试（node --test）：协议编解码、Mock 会话、合并去重、超时断连、取消、空音频、术语、脱敏、UI 交互（jsdom/手工断言）、打包自检
+10. [P1] Ubuntu 兼容检测脚本（X11/Wayland、PipeWire、剪贴板、arecord）+ 文档
+11. [P1] 构建 dist + 本地 marketplace + CLI 安装/启用（实机）
+12. [P2] 真机联调：麦克风授权弹窗、CSP connectDomains、updateModelContext 芯片、clipboardWrite
+13. [P2] 文档：README/INSTALL/UNINSTALL/使用说明
 
-## 第二轮：GitHub 开源化 + Ubuntu 支持（全部完成 ✅）
-- [x] 双语 README（README.md 英 / README.zh-CN 中），文档互链
-- [x] docs/INSTALL.zh-CN.md + docs/INSTALL.en.md（Windows/Ubuntu 双平台安装指南）
-- [x] docs/USAGE.zh-CN.md + docs/USAGE.en.md（使用说明）
-- [x] docs/TROUBLESHOOTING.zh-CN.md + docs/TROUBLESHOOTING.en.md（故障排查）
-- [x] install-local.mjs / uninstall.mjs / doctor.mjs 跨平台化（Linux 常见路径自动发现、ZCODE_CLI、--zcode）
-- [x] scripts/doctor.mjs 环境体检（Node 版本/CLI 定位/官方校验/构建产物/音频栈提示）
-- [x] .github/workflows/ci.yml：ubuntu-latest + windows-latest × Node 22/24 全套测试+构建
-- [x] package.json scripts 跨平台化（build/test/doctor/install/uninstall/validate）
-- [x] 新脚本在本机重装验证幂等（Added→Installed→Enabled→✅）+ 67/67 测试复归
-
-## P1 尽力项（状态不变）
-- [x] 麦克风设备选择（enumerateDevices，权限授予后可用）
-- [ ] 全局快捷键：未实现（宿主无快捷键注册 API，避免与 ZCode 冲突；记录为可选增强）
-
-## 阻塞/等待用户（唯一剩余）
-- [ ] Windows 机：重启 ZCode 桌面端并打开"语音输入"面板做人工验收
-- [ ] Windows 机：插件设置中配置真实火山引擎凭据（App Key 或 App ID+Access Token）后联调
-- [ ] Ubuntu 机：按 docs/INSTALL.zh-CN.md 执行安装（doctor → install-local → 重启 ZCode）并人工验证录音
-
+## 已完成
+- [x] ZCode 插件系统调研（文档 + app.asar 逆向）
+- [x] 火山豆包流式 ASR 2.0 协议调研
+- [x] 架构定稿（回环 WS 音频桥方案）
+- [x] 跟踪文件建立
