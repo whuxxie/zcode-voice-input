@@ -41,6 +41,9 @@ function readConfig() {
     resourceId: process.env.ZCODE_VOICE_RESOURCE_ID || RESOURCE_ID_20_DURATION,
     model: process.env.ZCODE_VOICE_MODEL || '2.0',
     billing: process.env.ZCODE_VOICE_BILLING || 'duration',
+    // 可选：火山自学习平台词表 id（突破直传热词 100 词上限 / 云端替换词表）
+    boostingTableId: process.env.ZCODE_VOICE_BOOSTING_TABLE_ID || '',
+    correctTableId: process.env.ZCODE_VOICE_CORRECT_TABLE_ID || '',
     useMock: process.env.ZCODE_VOICE_USE_MOCK === '1' || !readCredentials().hasAny,
   };
 }
@@ -75,7 +78,7 @@ const getSettings = () =>
   readJsonSafe('settings.json', {
     addPunctuation: false,
     cleanRepeat: false,
-    applyCaseFix: false,
+    applyCaseFix: true,
     includeBuiltinTerms: true,
     enablePunc: true,
     enableItn: true,

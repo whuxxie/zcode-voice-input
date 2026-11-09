@@ -99,13 +99,17 @@ Panel ⚙ Settings (saved instantly, applied to the next recording):
 |---|---|---|
 | Final punctuation | off | Appends a period if the transcript ends without one |
 | Clean stutters | off | Collapses adjacent repeats ("那个那个"→"那个"); short words only |
-| Tech-term casing | off | Whole-word replacement per dictionary (`springboot` → `Spring Boot`); never touches identifiers/args |
-| Built-in hot words | **on** | Injects 18 built-in tech terms into Volcengine hot words |
+| Misrecognition fix | **on** | Whole-word replacement of glossary-declared variants (`金瑞线→浸润线`, `springboot` → `Spring Boot`); never touches identifiers/args |
+| Built-in hot words | **on** | Injects 90 built-in domain terms into Volcengine hot words (mine-safety monitoring > surveying > remote sensing > GIS > CS) |
+
+Built-in glossary (`plugin/server/domain-terms.js`, 90 terms; Volcengine bidirectional-streaming caps hot words at 100, so ≥10 slots stay free for the personal dictionary):
+mine-safety monitoring 38 (浸润线, 测斜孔, 尾矿库, 干滩长度, 渗压计, 报警阈值…), surveying 18 (全站仪, RTK, 正射影像, 数字线划图, CGCS2000…),
+remote sensing 12 (合成孔径雷达, 时序InSAR, 大气校正, 变化检测…), GIS 9 (地理信息系统, 矢量数据, WebGIS…), CS 13 (Spring Boot, PostgreSQL, Cesium…).
 
 Personal dictionary: the Agent can manage it via `voice_set_dictionary`; entries look like
-`{"word": "openGauss", "match": ["open高斯", "opengauss"]}` — `word` is the canonical display form, `match` lists variants you actually pronounce (used for hot words and optional whole-word replacement).
+`{"word": "openGauss", "match": ["open高斯", "opengauss"]}` — `word` is the canonical display form (also injected as a hot word), `match` lists variants you actually pronounce (used for whole-word correction; they cost no hot-word slots and are exempt from the 100-word cap).
 
-> Design rule: every post-processor is off by default; hot words are applied by the ASR engine itself (safest); whole-word replacement only runs when explicitly enabled and only on exact whole-word matches. No unsolicited rewriting.
+> Design rule: hot words are applied by the ASR engine itself (safest); whole-word correction is on by default but only fires on exact whole-word matches of glossary-declared variants. No unsolicited rewriting of plain text.
 
 ## 7. Mock vs real mode
 

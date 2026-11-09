@@ -26,7 +26,8 @@ export function createBackendFactory(deps) {
         dictionary,
         addPunctuation: settings.addPunctuation === true,
         cleanRepeat: settings.cleanRepeat === true,
-        applyCaseFix: settings.applyCaseFix === true,
+        // 整词错认纠正默认开启（仅命中词典声明的精确变体才替换）；显式传 false 可关闭
+        applyCaseFix: settings.applyCaseFix !== false,
       });
 
     if (cfg.useMock) {
@@ -45,6 +46,8 @@ export function createBackendFactory(deps) {
       model: cfg.model,
       billing: cfg.billing,
       endpoint: cfg.endpoint,
+      boostingTableId: cfg.boostingTableId || undefined,
+      correctTableId: cfg.correctTableId || undefined,
       mode: sessionParams.mode,
       sampleRate: sessionParams.sampleRate,
       enablePunc: settings.enablePunc !== false,

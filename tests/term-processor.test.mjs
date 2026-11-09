@@ -5,8 +5,10 @@ import { BUILTIN_TERMS, postProcess, hotwordList, normalizePunctuation, cleanStu
 
 test('内置术语表包含规约要求的全部术语', () => {
   const words = BUILTIN_TERMS.map((t) => t.word);
-  for (const w of ['Spring Boot', 'MyBatis', 'openGauss', 'PostgreSQL', 'Vue', 'Java', 'JavaScript',
-    'TypeScript', 'MQTT', 'GNSS', 'Cesium', 'Docker', 'Git', 'GitHub', 'API', 'JSON', 'SQL', 'WebSocket']) {
+  for (const w of ['Spring Boot', 'MyBatis', 'openGauss', 'PostgreSQL', 'Vue', 'JavaScript',
+    'TypeScript', 'MQTT', 'GNSS', 'Cesium', 'Docker', 'GitHub', 'WebSocket',
+    // 领域词库关键词条
+    '浸润线', '测斜孔', '尾矿库', '干滩长度', '报警阈值', '全站仪', '正射影像', 'InSAR', '地理信息系统']) {
     assert.ok(words.includes(w), `缺少术语 ${w}`);
   }
 });
@@ -26,11 +28,37 @@ test('整词边界：不破坏变量名', () => {
   assert.ok(!out.includes('Spring Boot2'), '不应替换为 Spring Boot2（变量名后缀数字保持）');
 });
 
-test('JSON/SQL/GitHub 大小写变体', () => {
-  const out = postProcess('把json转成sql上传到github', { applyCaseFix: true });
-  assert.ok(out.includes('JSON'));
-  assert.ok(out.includes('SQL'));
+test('Docker/GitHub/WebSocket 大小写变体', () => {
+  const out = postProcess('把websocket服务跑在docker里,代码传到github', { applyCaseFix: true });
+  assert.ok(out.includes('WebSocket'));
+  assert.ok(out.includes('Docker'));
   assert.ok(out.includes('GitHub'));
+});
+
+test('领域错认纠正：金瑞线→浸润线、测线孔→测斜孔', () => {
+  const out = postProcess('金瑞线埋深超过警戒值,建议加密测线孔观测', { applyCaseFix: true });
+  assert.ok(out.includes('浸润线'), '金瑞线应纠正为浸润线');
+  assert.ok(out.includes('测斜孔'), '测线孔应纠正为测斜孔');
+  assert.ok(!out.includes('金瑞线'));
+});
+
+test('领域错认纠正：测绘/遥感/GIS 常见变体', () => {
+  assert.ok(postProcess('数字线画图还没入库', { applyCaseFix: true }).includes('数字线划图'));
+  assert.ok(postProcess('用失量数据做空间分析', { applyCaseFix: true }).includes('矢量数据'));
+  assert.ok(postProcess('基于时序insar做地表形变分析', { applyCaseFix: true }).includes('时序InSAR'));
+  assert.ok(postProcess('大气较正之后做变化检测', { applyCaseFix: true }).includes('大气校正'));
+});
+
+test('hotwordList：领域词优先注入且总量不超火山上限', () => {
+  const list = hotwordList();
+  assert.ok(list.includes('测斜孔'));
+  assert.ok(list.includes('浸润线'));
+  // 矿山安全监测词排在最前（截断时保高优先级领域词）
+  assert.equal(list[0], '浸润线');
+  assert.ok(list.length <= 100, `内置+词典热词总数 ${list.length} 超过火山双向流式上限 100`);
+  // 个人词典词条追加在内置词之后
+  const withDict = hotwordList({ dictionary: [{ word: '个人专业词' }] });
+  assert.ok(withDict.includes('个人专业词'));
 });
 
 test('cleanStutters 只清相邻重复', () => {

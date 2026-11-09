@@ -1,31 +1,27 @@
-// term-processor.js — 面向程序员的中英文术语处理
+// term-processor.js — 面向程序员/领域专业词汇的中英文术语处理
 // 原则：
 //  1. 优先使用火山引擎官方机制：热词注入 (corpus.context) 与自学习平台表 id（如用户配置）。
-//  2. 后处理默认保守：只做"整词大小写规范化"（仅当识别结果中存在该词的小写/变体形式且词典声明 protectCase），
-//     绝不把普通词替换成技术名词（那类纠错交给热词，由 ASR 引擎在识别阶段使用）。
+//  2. 后处理保守：只做"整词精确匹配替换"（识别结果出现词典声明的错认变体时纠正为标准写法），
+//     不动普通词。错认变体（如 金瑞线→浸润线）只收录"非正常词汇"的形态，避免误伤正常文本。
 //  3. 不修改代码变量名、路径、端口、SQL、命令参数：后处理只在"整词边界 + 与词典精确匹配"时生效。
 'use strict';
 
-// 内置术语表：word = 希望显示的标准写法；match = 可匹配的常见识别变体（小写比较）
+const {
+  MINING_SAFETY_TERMS,
+  SURVEYING_TERMS,
+  REMOTE_SENSING_TERMS,
+  GIS_TERMS,
+  CS_TERMS,
+} = require('./domain-terms.js');
+
+// 内置术语表：word = 希望显示的标准写法；match = 可匹配的常见识别变体（小写比较）。
+// 顺序 = 热词注入优先级（火山双向流式上限 100 词，内置 ≤90，超限截断时保靠前的领域词）。
 const BUILTIN_TERMS = [
-  { word: 'Spring Boot', match: ['springboot', 'spring boot', 'springboot框架'] },
-  { word: 'MyBatis', match: ['mybatis', 'my batis', '麦batis'] },
-  { word: 'openGauss', match: ['opengauss', 'open gauss', '欧朋gauss', 'open高斯'] },
-  { word: 'PostgreSQL', match: ['postgresql', 'postgre sql', 'postgressql', '泡斯格q'] },
-  { word: 'Vue', match: ['vue'] },
-  { word: 'Java', match: ['java'] },
-  { word: 'JavaScript', match: ['javascript', 'java script', 'java脚本'] },
-  { word: 'TypeScript', match: ['typescript', 'type script', 'types脚本'] },
-  { word: 'MQTT', match: ['mqtt'] },
-  { word: 'GNSS', match: ['gnss'] },
-  { word: 'Cesium', match: ['cesium', 'esium'] },
-  { word: 'Docker', match: ['docker'] },
-  { word: 'Git', match: ['git'] },
-  { word: 'GitHub', match: ['github', 'git hub'] },
-  { word: 'API', match: ['api', 'a p i'] },
-  { word: 'JSON', match: ['json', 'j son'] },
-  { word: 'SQL', match: ['sql', 's q l'] },
-  { word: 'WebSocket', match: ['websocket', 'web socket', '网路socket'] },
+  ...MINING_SAFETY_TERMS,
+  ...SURVEYING_TERMS,
+  ...REMOTE_SENSING_TERMS,
+  ...GIS_TERMS,
+  ...CS_TERMS,
 ];
 
 function escapeRegExp(s) {

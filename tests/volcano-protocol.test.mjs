@@ -118,6 +118,17 @@ test('构建首个 Full Client Request：模式/热词/参数', () => {
   assert.equal(p2.request.show_utterances, false);
 });
 
+test('自学习平台词表 id 透传到 corpus', () => {
+  const p = buildStartRequestPayload({
+    boostingTableId: 'volc.table.boost.123',
+    correctTableId: 456,
+  });
+  assert.equal(p.request.corpus.boosting_table_id, 'volc.table.boost.123');
+  assert.equal(p.request.corpus.correct_table_id, '456');
+  const p2 = buildStartRequestPayload({});
+  assert.equal(p2.request.corpus, undefined, '未配置词表 id 时不产生 corpus');
+});
+
 test('非法协议版本抛错并清空缓冲', () => {
   const parser = createFrameParser();
   const bad = Buffer.from([0x21, 0x10, 0x11, 0x00, 0, 0, 0, 0]);

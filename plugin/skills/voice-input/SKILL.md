@@ -40,8 +40,8 @@ node scripts/install-overlay.mjs uninstall # 卸载
 
 - `voice_panel`：在对话内渲染录音面板（备用形态）。
 - `voice_status`：凭据/模式/中继端口/版本。不返回任何密钥值。
-- `voice_get_settings` / `voice_set_settings`：后处理开关（默认全部保守）。
-- `voice_get_dictionary` / `voice_set_dictionary`：个人术语词典（热词）。
+- `voice_get_settings` / `voice_set_settings`：后处理开关（错词纠正默认开，其余默认关）。
+- `voice_get_dictionary` / `voice_set_dictionary`：个人术语词典（`word` 进热词；`match` 变体用于错词纠正，不占热词名额）。
 
 ## 诊断
 

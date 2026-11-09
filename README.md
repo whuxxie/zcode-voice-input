@@ -16,8 +16,9 @@ Verified on **Windows**; the plugin is fully cross-platform (Node.js + web stand
 - ⏺ Two modes: **sentence streaming** (default, live partial results + definite sentences) and **one-shot** (single final result after stop)
 - ✍️ Editable result box — review and correct text before it goes anywhere
 - 📋 Copy to clipboard / paste guidance / optional host-confirmed submit (`ui/message`, ZCode shows an editable confirmation dialog)
-- 🈶 Chinese / English / mixed input with official hot-word support (`corpus.context`), built-in programmer glossary (Spring Boot, MyBatis, openGauss, PostgreSQL, Vue, Java, JavaScript, TypeScript, MQTT, GNSS, Cesium, Docker, Git, GitHub, API, JSON, SQL, WebSocket) and a personal dictionary
-- ⚙️ Conservative post-processing (all off by default): final punctuation, stutter cleanup, whole-word tech-term casing — never rewrites code identifiers, paths, ports, or SQL
+- 🈶 Chinese / English / mixed input with official hot-word support (`corpus.context`), built-in domain glossary (90 terms; mine-safety monitoring first, plus surveying / remote sensing / GIS / computer science — e.g. 浸润线, 测斜孔, 干滩长度, 正射影像, 时序InSAR, WebGIS) and a personal dictionary
+- 🛠 Homophone misrecognition correction (on by default): whole-word replacement of exact variants declared in the glossary (`金瑞线→浸润线`, `springboot→Spring Boot`); identifiers are never touched
+- ⚙️ Other post-processing (off by default): final punctuation, stutter cleanup — never rewrites code identifiers, paths, ports, or SQL
 - 🔒 Secrets stay in the plugin's MCP server process (injected via plugin `userConfig`), never in the panel, logs, or repo; the local relay listens on `127.0.0.1` with a per-boot token
 - 🖥️ Microphone device picker, duration display, error surfacing with retryable flags, full resource cleanup, concurrency guard
 

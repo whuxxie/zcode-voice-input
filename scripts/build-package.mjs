@@ -36,6 +36,7 @@ const files = [
   ['server/relay.js', true],
   ['server/mock-asr.js', true],
   ['server/term-processor.js', true],
+  ['server/domain-terms.js', true],
   ['server/runtime-publisher.mjs', true],
   ['overlay/overlay.js', true],
   ['overlay/inject-main.cjs', true],
